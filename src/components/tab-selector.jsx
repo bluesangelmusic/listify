@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from './button'
+import DefaultButton from './button'
 
 const TabSelector = props => {
   return (
     <Wrapper>
+      <h2>Select a Tab</h2>
       {props.tabs.map(tab => (
         <Button key={tab.id} onClick={() => props.select(tab.id)}>
           {tab.name}
@@ -15,10 +16,11 @@ const TabSelector = props => {
   )
 }
 
-const Wrapper = styled.div`
-  & > * {
-    margin: 1rem;
-  }
+const Wrapper = styled.div``
+
+const Button = styled(DefaultButton)`
+  font-size: 1rem;
+  margin: 1rem;
 `
 
 export default TabSelector

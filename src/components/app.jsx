@@ -4,6 +4,8 @@ import TabSelector from './tab-selector'
 import TabEditor from './tab-editor'
 import defaultTabs from '../static/tabs.json'
 import Output from './output'
+import DefaultButton from './button'
+import Modal from './modal'
 import { v4 as uuid } from 'uuid'
 
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
   )
   const [activeTab, setActiveTab] = useState(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [html, setHtml] = useState('')
+  const [modalShown, setModalShown] = useState(false)
 
   const handleTabSelect = id => {
     const selectedTab = tabs.find(tab => tab.id === id)
@@ -38,13 +42,10 @@ const App = () => {
 
   const handleHomeSelect = () => setActiveIndex(0)
 
-  // const generateHtml = () => {
-  //   const content = editorState.getCurrentContent()
-  //   const raw = convertToRaw(content)
-  //   const html = draftToHtml(raw)
-
-  //   setHtml(html)
-  // }
+  const generateHtml = () => {
+    setHtml(getHtmlFromTabData(tabs))
+    setModalShown(true)
+  }
 
   const updateTab = tab => {
     const __tabs = [...tabs]
@@ -64,6 +65,8 @@ const App = () => {
     setTabs(__tabs)
   }
 
+  const dismissModal = () => setModalShown(false)
+
   return (
     <Wrapper>
       <Viewport>
@@ -74,6 +77,7 @@ const App = () => {
               select={handleTabSelect}
               create={handleTabCreate}
             />
+            <Button onClick={generateHtml}>Generate HTML</Button>
           </Frame>
           <Frame>
             {activeTab && (
@@ -85,11 +89,9 @@ const App = () => {
               />
             )}
           </Frame>
-          <Frame>
-            <Output>{'<p>Hello, world!</p>'}</Output>
-          </Frame>
         </Container>
       </Viewport>
+      {modalShown && <Modal dismiss={dismissModal}>{html}</Modal>}
     </Wrapper>
   )
 }
@@ -123,5 +125,126 @@ const Container = styled.div`
 const Frame = styled.div`
   width: 100%;
 `
+
+const Button = styled(DefaultButton)`
+  font-size: 1rem;
+  color: white;
+  background: #001659;
+  margin-top: 3rem;
+`
+
+function getHtmlFromTabData(tabs) {
+  const style = `<style>
+  :root {
+    font-family: Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+  }
+
+  .tab-wrapper {
+    width: 100%;
+    max-width: 768px;
+    margin: auto;
+  }
+
+  .tab-area {
+    display: flex;
+  }
+
+  .tab-selector {
+    padding: 0.5em 1.5em;
+  }
+
+  .tab-selector.active {
+    font-weight: bold;
+  }
+
+  .tab-content-area {
+    position: relative;
+  }
+
+  .tab-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 2rem;
+    width: 100%;
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  dl {
+    width: 100%;
+  }
+
+  dt {
+    font-weight: bold;
+    float: left;
+    margin-right: 0.3rem;
+  }
+</style>`
+
+  const tabSelectors = ` <div id="tab-area" class="tab-area">
+    ${tabs
+      .map(
+        tab =>
+          `<div class="tab-selector" data-target="#${tab.id}">${tab.name}</div>`
+      )
+      .join('')}
+  </div>`
+
+  const tabContent = ` <div class="tab-content-area">
+    ${tabs
+      .map(
+        tab => `<div id="${tab.id}" class="tab-content">${tab.content}</div>`
+      )
+      .join('')}
+  </div>`
+
+  const script = `<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var tabRow = document.getElementById('tab-area');
+    onLoad();
+    tabRow.addEventListener('click', function (e) {
+      var clickedElement = e.target;
+      var clickedElementTarget = clickedElement.getAttribute('data-target');
+      setActiveTab(clickedElementTarget);
+    });
+  });
+  function onLoad() {
+    var firstSelector = document.getElementsByClassName('tab-selector')[0];
+    var target = firstSelector.getAttribute('data-target');
+    setActiveTab(target);
+  }
+  function setActiveTab(id) {
+    var tabSelectors = document.getElementsByClassName('tab-selector');
+    for (var i = 0; i < tabSelectors.length; i++) {
+      var selector = tabSelectors[i];
+      var target = selector.getAttribute('data-target');
+      var targetElement = document.getElementById(target.replace(/^#/, ''));
+      if (target === id) {
+        selector.classList.add('active');
+        targetElement.classList.add('active');
+      } else {
+        selector.classList.remove('active');
+        targetElement.classList.remove('active');
+      }
+    }
+  }
+</script>`
+
+  const html = `${style}
+<div class="tab-wrapper">
+  ${tabSelectors}
+  ${tabContent}
+</div>
+${script}`
+
+  return html
+}
 
 export default App
