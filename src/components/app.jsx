@@ -27,7 +27,7 @@ const App = () => {
   const handleTabCreate = () => {
     const newTab = {
       id: uuid(),
-      name: '',
+      name: 'New Tab',
       content: '',
     }
 
@@ -56,6 +56,14 @@ const App = () => {
     }
   }
 
+  const deleteTab = id => {
+    const __tabs = [...tabs]
+    const index = __tabs.findIndex(tab => tab.id === id)
+    __tabs.splice(index, 1)
+
+    setTabs(__tabs)
+  }
+
   return (
     <Wrapper>
       <Viewport>
@@ -72,6 +80,7 @@ const App = () => {
               <TabEditor
                 tab={activeTab}
                 updateTab={updateTab}
+                deleteTab={deleteTab}
                 back={handleHomeSelect}
               />
             )}

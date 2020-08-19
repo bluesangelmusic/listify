@@ -11,6 +11,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 const TabEditor = props => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
   const [name, setName] = useState(props.tab.name)
+  const [state, setState] = useState('init')
 
   useEffect(() => {
     setName(props.tab.name)
@@ -21,9 +22,43 @@ const TabEditor = props => {
     if (__editorState) setEditorState(__editorState)
   }, [props.tab.content])
 
-  const save = () => {
-    const raw = convertToRaw(editorState.getCurrentContent())
-    const content = draftToHtml(raw)
+  useEffect(() => {
+    const content = getContentFromEditorState(editorState)
+
+    if (state === 'modified') {
+      if (content === props.tab.content && name === props.tab.name) {
+        setState('ready')
+      }
+    } else {
+      if (content !== props.tab.content || name !== props.tab.name) {
+        setState('modified')
+      }
+    }
+  }, [editorState, name])
+
+  const back = () => {
+    if (
+      state === 'modified' &&
+      !window.confirm('Changes you have made will be lost. Continue?')
+    ) {
+      return
+    }
+
+    const __editorState = getEditorStateFromContent(props.tab.content)
+    setEditorState(__editorState)
+    setName(props.tab.name)
+
+    setState('init')
+    props.back()
+  }
+
+  const saveTab = () => {
+    if (!name) {
+      window.alert('Tab name must not be blank.')
+      return
+    }
+
+    const content = getContentFromEditorState(editorState)
 
     props.updateTab({
       id: props.tab.id,
@@ -33,17 +68,34 @@ const TabEditor = props => {
     props.back()
   }
 
-  const reset = () => {
+  const resetTab = () => {
     setName(props.tab.name)
 
     const __editorState = getEditorStateFromContent(props.tab.content)
     if (__editorState) setEditorState(__editorState)
   }
 
+  const deleteTab = () => {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this tab? This action cannot be undone.'
+      )
+    ) {
+      props.deleteTab(props.tab.id)
+      props.back()
+    }
+  }
+
   return (
     <Wrapper>
-      <Button onClick={props.back}>Back</Button>
-      <Input value={name} onChange={e => setName(e.target.value)} />
+      <Button style={{ display: 'block' }} onClick={back}>
+        Back
+      </Button>
+      <Input
+        value={name}
+        placeholder="Tab name"
+        onChange={e => setName(e.target.value)}
+      />
       <Editor
         editorState={editorState}
         onEditorStateChange={setEditorState}
@@ -54,7 +106,12 @@ const TabEditor = props => {
           overflow: 'auto',
         }}
       />
-      <EditorButtons save={save} reset={reset} />
+      <EditorButtons
+        isModified={state === 'modified'}
+        save={saveTab}
+        reset={resetTab}
+        delete={deleteTab}
+      />
     </Wrapper>
   )
 }
@@ -83,6 +140,13 @@ function getEditorStateFromContent(content) {
   } else {
     return null
   }
+}
+
+function getContentFromEditorState(editorState) {
+  const raw = convertToRaw(editorState.getCurrentContent())
+  const content = draftToHtml(raw).replace(/[\r\n]$/, '')
+
+  return content
 }
 
 export default TabEditor
