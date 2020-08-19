@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import TabSelector from './tab-selector'
 import TabEditor from './tab-editor'
 import defaultTabs from '../static/tabs.json'
-import Output from './output'
 import DefaultButton from './button'
-import Modal from './modal'
+import CodeModal from './code-modal'
 import { v4 as uuid } from 'uuid'
 
 const App = () => {
@@ -91,7 +90,7 @@ const App = () => {
           </Frame>
         </Container>
       </Viewport>
-      {modalShown && <Modal dismiss={dismissModal}>{html}</Modal>}
+      {modalShown && <CodeModal dismiss={dismissModal}>{html}</CodeModal>}
     </Wrapper>
   )
 }

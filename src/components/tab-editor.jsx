@@ -15,12 +15,9 @@ const TabEditor = props => {
 
   useEffect(() => {
     setName(props.tab.name)
-  }, [props.tab.name])
-
-  useEffect(() => {
     const __editorState = getEditorStateFromContent(props.tab.content)
     if (__editorState) setEditorState(__editorState)
-  }, [props.tab.content])
+  }, [props.tab])
 
   useEffect(() => {
     const content = getContentFromEditorState(editorState)

@@ -1,11 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
+import DefaultButton from './button'
 
-const Modal = props => {
+const CodeModal = props => {
   return (
     <Wrapper onClick={props.dismiss}>
       <Dialog onClick={e => e.stopPropagation()}>
         <CodeBlock>{props.children}</CodeBlock>
+        <form
+          action="https://codepen.io/pen/define"
+          method="POST"
+          target="_blank"
+        >
+          <input
+            type="hidden"
+            name="data"
+            value={JSON.stringify({
+              title: 'Listify Preview',
+              html: props.children,
+            })}
+          />
+
+          <Button>Preview on CodePen</Button>
+        </form>
       </Dialog>
     </Wrapper>
   )
@@ -25,7 +42,6 @@ const Dialog = styled.div`
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40vw;
   min-width: 400px;
   background: white;
   box-shadow: 0 7px 10px #777;
@@ -41,4 +57,8 @@ const CodeBlock = styled.code`
   padding: 1rem;
 `
 
-export default Modal
+const Button = styled(DefaultButton)`
+  margin: 1rem auto;
+`
+
+export default CodeModal
