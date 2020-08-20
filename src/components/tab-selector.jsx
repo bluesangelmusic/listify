@@ -11,7 +11,7 @@ const TabSelector = props => {
           {tab.name}
         </Button>
       ))}
-      <Button onClick={props.create}>Create</Button>
+      <CreateButton onClick={props.create}>+</CreateButton>
     </Wrapper>
   )
 }
@@ -21,6 +21,12 @@ const Wrapper = styled.div``
 const Button = styled(DefaultButton)`
   font-size: 1rem;
   margin: 1rem;
+`
+
+const CreateButton = styled(Button)`
+  background: #001659;
+  color: white;
+  font-weight: bold;
 `
 
 export default TabSelector

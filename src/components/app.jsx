@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import TabSelector from './tab-selector'
 import TabEditor from './tab-editor'
@@ -18,6 +18,10 @@ const App = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [html, setHtml] = useState('')
   const [modalShown, setModalShown] = useState(false)
+
+  useEffect(() => {
+    if (activeIndex === 0) setTimeout(() => setActiveTab(null), 200)
+  }, [activeIndex])
 
   const handleTabSelect = id => {
     const selectedTab = tabs.find(tab => tab.id === id)
@@ -151,10 +155,12 @@ function getHtmlFromTabData(tabs) {
 
   .tab-selector {
     padding: 0.5em 1.5em;
+    cursor: pointer;
   }
 
   .tab-selector.active {
     font-weight: bold;
+    cursor: initial;
   }
 
   .tab-content-area {
