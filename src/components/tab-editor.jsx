@@ -31,7 +31,7 @@ const TabEditor = props => {
         setState('modified')
       }
     }
-  }, [editorState, name])
+  }, [editorState, name, props.tab.content, props.tab.name, state])
 
   const back = () => {
     if (
@@ -143,7 +143,7 @@ function getContentFromEditorState(editorState) {
   const raw = convertToRaw(editorState.getCurrentContent())
   const content = draftToHtml(raw).replace(/[\r\n]$/, '')
 
-  return content
+  return content === '<p></p>' ? '' : content
 }
 
 export default TabEditor
