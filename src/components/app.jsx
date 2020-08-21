@@ -197,7 +197,7 @@ function getHtmlFromTabData(tabs) {
     ${tabs
       .map(
         tab =>
-          `<div class="tab-selector" data-target="#${tab.id}">${tab.name}</div>`
+          `<div class="tab-selector" data-target="${tab.id}">${tab.name}</div>`
       )
       .join('')}
   </div>`
@@ -230,7 +230,7 @@ function getHtmlFromTabData(tabs) {
     for (var i = 0; i < tabSelectors.length; i++) {
       var selector = tabSelectors[i];
       var target = selector.getAttribute('data-target');
-      var targetElement = document.getElementById(target.replace(/^#/, ''));
+      var targetElement = document.getElementById(target);
       if (target === id) {
         selector.classList.add('active');
         targetElement.classList.add('active');
