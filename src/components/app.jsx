@@ -138,118 +138,67 @@ const Button = styled(DefaultButton)`
 
 function getHtmlFromTabData(tabs) {
   const style = `<style>
-  :root {
-    font-family: Helvetica, Arial, sans-serif;
-    box-sizing: border-box;
-  }
-
-  .tab-wrapper {
-    width: 100%;
-    max-width: 768px;
-    margin: auto;
-  }
-
-  .tab-area {
-    display: flex;
-  }
-
-  .tab-selector {
-    padding: 0.5em 1.5em;
-    cursor: pointer;
-  }
-
-  .tab-selector.active {
-    font-weight: bold;
-    cursor: initial;
-  }
-
-  .tab-content-area {
-    position: relative;
-  }
-
-  .tab-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 2rem;
-    width: 100%;
-    display: none;
-  }
-
-  .tab-content.active {
-    display: block;
-  }
-
-  dl {
-    width: 100%;
-  }
-
-  dt {
-    font-weight: bold;
-    float: left;
-    margin-right: 0.3rem;
-  }
-</style>`
-
-  const tabSelectors = ` <div id="tab-area" class="tab-area">
-    ${tabs
-      .map(
-        tab =>
-          `<div class="tab-selector" data-target="${tab.id}">${tab.name}</div>`
-      )
-      .join('')}
-  </div>`
-
-  const tabContent = ` <div class="tab-content-area">
-    ${tabs
-      .map(
-        tab => `<div id="${tab.id}" class="tab-content">${tab.content}</div>`
-      )
-      .join('')}
-  </div>`
-
-  const script = `<script>
-  window.addEventListener('DOMContentLoaded', function () {
-    var tabRow = document.getElementById('tab-area');
-    onLoad();
-    tabRow.addEventListener('click', function (e) {
-      var clickedElement = e.target;
-      var clickedElementTarget = clickedElement.getAttribute('data-target');
-      setActiveTab(clickedElementTarget);
-    });
-  });
-  function onLoad() {
-    var firstSelector = document.getElementsByClassName('tab-selector')[0];
-    var target = firstSelector.getAttribute('data-target');
-    setActiveTab(target);
-  }
-  function setActiveTab(id) {
-    var tabSelectors = document.getElementsByClassName('tab-selector');
-    for (var i = 0; i < tabSelectors.length; i++) {
-      var selector = tabSelectors[i];
-      var target = selector.getAttribute('data-target');
-      var targetElement = document.getElementById(target);
-      if (target === id) {
-        selector.classList.add('active');
-        targetElement.classList.add('active');
-      } else {
-        selector.classList.remove('active');
-        targetElement.classList.remove('active');
-      }
+    #bam-tab-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 768px;
+      margin: auto;
+      display: flex;
+      font-family: Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
     }
-  }
-</script>`
+    
+    #bam-tab-wrapper .tab input {
+      display: none;
+    }
+    
+    #bam-tab-wrapper .tab label {
+      display: block;
+      padding: 0.5em 1.5em;
+    }
+    
+    #bam-tab-wrapper .tab input:checked + label {
+      font-weight: bold;
+    }
+    
+    #bam-tab-wrapper .tab-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 2rem;
+      width: 100%;
+      display: none;
+    }
+    
+    #bam-tab-wrapper .tab input:checked ~ .tab-content {
+      display: block;
+    }
 
-  const html = `${style}
-<div class="tab-wrapper">
-  ${tabSelectors}
-  ${tabContent}
-</div>
-${script}`
+    #bam-header-img {
+      max-width: 100%;
+    } 
+  </style>`
 
-  return html
+  const html = `<div id="bam-tab-wrapper">
+    ${tabs
+      .map(
+        (tab, i) =>
+          `<div class="tab">
+        <input type="radio" id="${tab.id}" name="active-tab" ${
+            i === 0 ? 'checked ' : ''
+          }/>
+        <label for="${tab.id}" tabindex="0">${tab.name}</label>
+        <div class="tab-content">
+          ${tab.content}
+        </div>
+      </div>`
+      )
+      .join('')}
+  </div>`
+
+  return `${style}${html}`
 }
 
 export default App
