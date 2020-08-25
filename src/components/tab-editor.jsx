@@ -23,17 +23,11 @@ const TabEditor = props => {
     const content = getContentFromEditorState(editorState)
 
     if (state === 'modified') {
-      if (
-        content === props.tab.content.replace(/[\r\n]$/, '') &&
-        name === props.tab.name
-      ) {
+      if (content === props.tab.content && name === props.tab.name) {
         setState('ready')
       }
     } else {
-      if (
-        content !== props.tab.content.replace(/[\r\n]$/, '') ||
-        name !== props.tab.name
-      ) {
+      if (content !== props.tab.content || name !== props.tab.name) {
         setState('modified')
       }
     }
@@ -165,7 +159,7 @@ function getEditorStateFromContent(content) {
 
 function getContentFromEditorState(editorState) {
   const raw = convertToRaw(editorState.getCurrentContent())
-  const content = draftToHtml(raw)
+  const content = draftToHtml(raw).replace(/[\r\n]$/, '')
 
   return content === '<p></p>' ? '' : content
 }

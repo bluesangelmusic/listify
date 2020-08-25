@@ -214,10 +214,10 @@ function getHtmlFromTabData(tabs) {
           ${
             i === 0
               ? `<img
-              id='bam-header-img'
-              src='https://i.frg.im/EgARwcjM/ebay-listing-banner.jpg'
-              alt='Blues Angel Music - New, Used, Vintage'
-            />`
+                  id='bam-header-img'
+                  src='https://i.frg.im/EgARwcjM/ebay-listing-banner.jpg'
+                  alt='Blues Angel Music - New, Used, Vintage'
+                />`
               : ''
           }
           ${tab.content}
