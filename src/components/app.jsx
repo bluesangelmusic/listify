@@ -6,11 +6,19 @@ import defaultTabs from '../static/tabs.json'
 import DefaultButton from './button'
 import CodeModal from './code-modal'
 import { v4 as uuid } from 'uuid'
+import draftToHtml from 'draftjs-to-html'
+import {
+  ContentState,
+  EditorState,
+  convertToRaw,
+  convertFromHTML,
+} from 'draft-js'
 
 const App = () => {
   const [tabs, setTabs] = useState(
     defaultTabs.map(tab => {
       tab.id = uuid()
+      tab.content = importRawHtml(tab.content)
       return tab
     })
   )
@@ -136,6 +144,18 @@ const Button = styled(DefaultButton)`
   margin-top: 3rem;
 `
 
+function importRawHtml(html) {
+  const contentBlock = convertFromHTML(html)
+  const contentState = ContentState.createFromBlockArray(
+    contentBlock.contentBlocks
+  )
+  const editorState = EditorState.createWithContent(contentState)
+  const raw = convertToRaw(editorState.getCurrentContent())
+  const content = draftToHtml(raw).replace(/[\r\n]$/, '')
+
+  return content === '<p></p>' ? '' : content
+}
+
 function getHtmlFromTabData(tabs) {
   const style = `<style>
     #bam-tab-wrapper {
@@ -191,6 +211,15 @@ function getHtmlFromTabData(tabs) {
           }/>
         <label for="${tab.id}" tabindex="0">${tab.name}</label>
         <div class="tab-content">
+          ${
+            i === 0
+              ? `<img
+              id='bam-header-img'
+              src='https://i.frg.im/EgARwcjM/ebay-listing-banner.jpg'
+              alt='Blues Angel Music - New, Used, Vintage'
+            />`
+              : ''
+          }
           ${tab.content}
         </div>
       </div>`

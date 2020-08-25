@@ -23,11 +23,17 @@ const TabEditor = props => {
     const content = getContentFromEditorState(editorState)
 
     if (state === 'modified') {
-      if (content === props.tab.content && name === props.tab.name) {
+      if (
+        content === props.tab.content.replace(/[\r\n]$/, '') &&
+        name === props.tab.name
+      ) {
         setState('ready')
       }
     } else {
-      if (content !== props.tab.content || name !== props.tab.name) {
+      if (
+        content !== props.tab.content.replace(/[\r\n]$/, '') ||
+        name !== props.tab.name
+      ) {
         setState('modified')
       }
     }
@@ -102,6 +108,7 @@ const TabEditor = props => {
           height: '10rem',
           overflow: 'auto',
         }}
+        stripPastedStyles={false}
       />
       <EditorButtons
         isModified={state === 'modified'}
@@ -115,6 +122,10 @@ const TabEditor = props => {
 
 const Wrapper = styled.div`
   width: 100%;
+  max-width: calc(800px - 4rem);
+  position: relative;
+  top: 0;
+  left: 0;
 
   & > * {
     margin: 1rem;
@@ -127,7 +138,20 @@ const Input = styled.input`
 `
 
 function getEditorStateFromContent(content) {
-  const contentBlock = htmlToDraft(content)
+  const contentBlock = htmlToDraft(content, (nodeName, node) => {
+    if (nodeName === 'img') {
+      return {
+        type: 'IMAGE',
+        mutability: 'IMMUTABLE',
+        data: {
+          src: node.src,
+          alt: node.alt,
+          width: '90%',
+          height: 'auto',
+        },
+      }
+    }
+  })
   if (contentBlock) {
     const contentState = ContentState.createFromBlockArray(
       contentBlock.contentBlocks
@@ -141,7 +165,7 @@ function getEditorStateFromContent(content) {
 
 function getContentFromEditorState(editorState) {
   const raw = convertToRaw(editorState.getCurrentContent())
-  const content = draftToHtml(raw).replace(/[\r\n]$/, '')
+  const content = draftToHtml(raw)
 
   return content === '<p></p>' ? '' : content
 }
