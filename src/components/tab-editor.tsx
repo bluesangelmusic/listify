@@ -7,11 +7,21 @@ import EditorButtons from './editor-buttons'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { Tab } from '../types'
 
-const TabEditor = props => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const [name, setName] = useState(props.tab.name)
-  const [state, setState] = useState('init')
+interface Props {
+  tab: Tab
+  updateTab: (tab: Tab) => void
+  deleteTab: (id: string) => void
+  back: () => void
+}
+
+const TabEditor: React.FC<Props> = props => {
+  const [editorState, setEditorState] = useState<EditorState>(
+    EditorState.createEmpty()
+  )
+  const [name, setName] = useState<string>(props.tab.name)
+  const [state, setState] = useState<string>('init')
 
   useEffect(() => {
     setName(props.tab.name)
@@ -41,7 +51,9 @@ const TabEditor = props => {
       return
     }
 
-    const __editorState = getEditorStateFromContent(props.tab.content)
+    const __editorState = getEditorStateFromContent(
+      props.tab.content
+    ) as EditorState
     setEditorState(__editorState)
     setName(props.tab.name)
 
@@ -131,15 +143,15 @@ const Input = styled.input`
   padding: 0.3em 0.8em;
 `
 
-function getEditorStateFromContent(content) {
+function getEditorStateFromContent(content: string) {
   const contentBlock = htmlToDraft(content, (nodeName, node) => {
     if (nodeName === 'img') {
       return {
         type: 'IMAGE',
         mutability: 'IMMUTABLE',
         data: {
-          src: node.src,
-          alt: node.alt,
+          src: (node as HTMLImageElement).src,
+          alt: (node as HTMLImageElement).alt,
           width: '90%',
           height: 'auto',
         },
@@ -157,7 +169,7 @@ function getEditorStateFromContent(content) {
   }
 }
 
-function getContentFromEditorState(editorState) {
+function getContentFromEditorState(editorState: EditorState) {
   const raw = convertToRaw(editorState.getCurrentContent())
   const content = draftToHtml(raw).replace(/[\r\n]$/, '')
 

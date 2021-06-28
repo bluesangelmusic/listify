@@ -13,25 +13,26 @@ import {
   convertToRaw,
   convertFromHTML,
 } from 'draft-js'
+import { Tab } from '../types'
 
 const App = () => {
-  const [tabs, setTabs] = useState(
-    defaultTabs.map(tab => {
-      tab.id = uuid()
-      tab.content = importRawHtml(tab.content)
-      return tab
-    })
+  const [tabs, setTabs] = useState<Tab[]>(
+    defaultTabs.map(tab => ({
+      id: uuid(),
+      name: tab.name,
+      content: importRawHtml(tab.content),
+    }))
   )
-  const [activeTab, setActiveTab] = useState(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [html, setHtml] = useState('')
-  const [modalShown, setModalShown] = useState(false)
+  const [activeTab, setActiveTab] = useState<Tab | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number>(0)
+  const [html, setHtml] = useState<string>('')
+  const [modalShown, setModalShown] = useState<boolean>(false)
 
   useEffect(() => {
     if (activeIndex === 0) setTimeout(() => setActiveTab(null), 200)
   }, [activeIndex])
 
-  const handleTabSelect = id => {
+  const handleTabSelect = (id: string) => {
     const selectedTab = tabs.find(tab => tab.id === id)
     if (!selectedTab) return
 
@@ -40,7 +41,7 @@ const App = () => {
   }
 
   const handleTabCreate = () => {
-    const newTab = {
+    const newTab: Tab = {
       id: uuid(),
       name: 'New Tab',
       content: '',
@@ -58,7 +59,7 @@ const App = () => {
     setModalShown(true)
   }
 
-  const updateTab = tab => {
+  const updateTab = (tab: Tab) => {
     const __tabs = [...tabs]
     const index = __tabs.findIndex(originalTab => tab.id === originalTab.id)
 
@@ -68,7 +69,7 @@ const App = () => {
     }
   }
 
-  const deleteTab = id => {
+  const deleteTab = (id: string) => {
     const __tabs = [...tabs]
     const index = __tabs.findIndex(tab => tab.id === id)
     __tabs.splice(index, 1)
@@ -121,13 +122,21 @@ const Viewport = styled.div`
   overflow-x: hidden;
 `
 
-const Container = styled.div`
+const Container = styled.div<{
+  activeIndex: number
+}>`
   display: grid;
-  grid-template-columns: repeat(${props => props.children.length || 1}, 1fr);
-  width: calc(100% * ${props => props.children.length || 1});
+  grid-template-columns: repeat(
+    ${props => (props.children instanceof Array ? props.children.length : 1)},
+    1fr
+  );
+  width: calc(
+    100% *
+      ${props => (props.children instanceof Array ? props.children.length : 1)}
+  );
   transform: translateX(
     calc(
-      -100% * ${props => (props.activeIndex || 0) / (props.children.length || 1)}
+      -100% * ${props => (props.activeIndex || 0) / (props.children instanceof Array ? props.children.length : 1)}
     )
   );
   transition: transform 0.2s ease-in-out;
@@ -144,7 +153,7 @@ const Button = styled(DefaultButton)`
   margin-top: 3rem;
 `
 
-function importRawHtml(html) {
+function importRawHtml(html: string) {
   const contentBlock = convertFromHTML(html)
   const contentState = ContentState.createFromBlockArray(
     contentBlock.contentBlocks
@@ -156,7 +165,7 @@ function importRawHtml(html) {
   return content === '<p></p>' ? '' : content
 }
 
-function getHtmlFromTabData(tabs) {
+function getHtmlFromTabData(tabs: Tab[]) {
   const style = `<style>
     #bam-tab-wrapper {
       position: relative;

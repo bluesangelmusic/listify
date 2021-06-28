@@ -2,7 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import DefaultButton from './button'
 
-const EditorButtons = props => {
+interface Props {
+  save: () => void
+  reset: () => void
+  delete: () => void
+  isModified: boolean
+}
+
+const EditorButtons: React.FC<Props> = props => {
   return (
     <Wrapper>
       <Button onClick={props.save} disabled={!props.isModified}>
@@ -26,7 +33,10 @@ const Wrapper = styled.div`
   }
 `
 
-const Button = styled(DefaultButton)`
+const Button = styled(DefaultButton)<{
+  secondary?: boolean
+  disabled?: boolean
+}>`
   font-size: 1rem;
   padding: 0.5em 1em;
   background: ${props =>

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
-const Output = props => {
+const Output: React.FC<PropsWithChildren<any>> = props => {
   if (!props.children) return null
 
   return (

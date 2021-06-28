@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 import DefaultButton from './button'
 
-const CodeModal = props => {
+const CodeModal: React.FC<PropsWithChildren<any>> = props => {
   return (
     <Wrapper onClick={props.dismiss}>
       <Dialog onClick={e => e.stopPropagation()}>

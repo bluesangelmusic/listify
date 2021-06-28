@@ -1,8 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import DefaultButton from './button'
+import { Tab } from '../types'
 
-const TabSelector = props => {
+interface Props {
+  tabs: Tab[]
+  select: (id: string) => void
+  create: () => void
+}
+
+const TabSelector: React.FC<Props> = props => {
   return (
     <Wrapper>
       <h2>Select a Tab</h2>
