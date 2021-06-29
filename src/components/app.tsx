@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import TabSelector from './tab-selector'
 import TabEditor from './tab-editor'
@@ -13,7 +13,10 @@ import {
   convertToRaw,
   convertFromHTML,
 } from 'draft-js'
-import { Tab } from '../types'
+import { Tab, InputConfig } from '../types'
+import Form from './form'
+import FormField from './form-field'
+import fields from '../static/fields.json'
 
 const App = () => {
   const [tabs, setTabs] = useState<Tab[]>(
@@ -79,6 +82,10 @@ const App = () => {
 
   const dismissModal = () => setModalShown(false)
 
+  const handleSubmit = useCallback(state => {
+    console.log(state)
+  }, [])
+
   return (
     <Wrapper>
       <Viewport>
@@ -89,7 +96,12 @@ const App = () => {
               select={handleTabSelect}
               create={handleTabCreate}
             />
-            <Button onClick={generateHtml}>Generate HTML</Button>
+            <Form onSubmit={handleSubmit}>
+              {(fields as InputConfig[]).map(field => {
+                return <FormField key={field.label} {...field} />
+              })}
+              <Button type="submit">Generate HTML</Button>
+            </Form>
           </Frame>
           <Frame>
             {activeTab && (
