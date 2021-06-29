@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    [
+      "inline-import",
+      {
+        "extensions": [".pug"]
+      }
+    ]
+  ]
+}

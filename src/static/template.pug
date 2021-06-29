@@ -1,4 +1,12 @@
-const template = `
+style.
+  #bam-content {
+    position: relative;
+    width: 100%;
+    max-width: 768px;
+    margin: auto;
+    font-family: 'Segoe UI', Helvetica, sans-serif;
+    box-sizing: border-box;
+  }
 div(id='bam-content')
   h1 #{Title}
   h2 The amount is #{Amount}
@@ -16,6 +24,3 @@ div(id='bam-content')
     ul
       each val in Specs
         li= val
-`
-
-export default template

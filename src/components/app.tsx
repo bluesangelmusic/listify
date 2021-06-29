@@ -5,9 +5,8 @@ import CodeModal from './code-modal'
 import { InputConfig } from '../types'
 import Form from './form'
 import FormField from './form-field'
-import fields from '../static/fields.json'
-import css from '../static/css.js'
-import template from '../static/template.js'
+import fields from '../static/form.json'
+import template from '../static/template.pug'
 import pug from 'pug'
 
 const App = () => {
@@ -20,7 +19,7 @@ const App = () => {
 
   const generateHtml = useCallback(
     state => {
-      setHtml(css + pug.render(template, state))
+      setHtml(pug.render(template.toString(), state))
       showModal()
     },
     [showModal]
