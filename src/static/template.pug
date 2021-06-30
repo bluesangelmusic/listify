@@ -1,26 +1,184 @@
 style.
-  #bam-content {
-    position: relative;
-    width: 100%;
-    max-width: 768px;
-    margin: auto;
-    font-family: 'Segoe UI', Helvetica, sans-serif;
+  .bam-content.bam-content.bam-content {
+    font-size: 85.5%;
+    --blue: #001659;
+  }
+
+  .bam-content.bam-content.bam-content * {
     box-sizing: border-box;
   }
-div(id='bam-content')
-  h1 #{Title}
-  h2 The amount is #{Amount}
-  p #{Description}
-  dl
-    dt Category
-    dd #{Category}
-    dt Number
-    dd #{Number}
-  p Letters
-    ul
-      each val in Letter
-        li= val
-  p Specs
-    ul
-      each val in Specs
-        li= val
+
+  .bam-content a,
+  .bam-content a:focus,
+  .bam-content a:hover,
+  .bam-content a:active,
+  .bam-content a:visited {
+    color: var(--blue);
+  }
+
+  .bam-content ul {
+    margin-left: 2em;
+    max-width: 80%;
+  }
+
+  .bam-content ul li {
+    margin-bottom: 0.3em;
+    list-style-image: url('https://bluesangelmusic.s3.us-east-2.amazonaws.com/wp-content/uploads/2021/06/30142017/jojo-bullet.png');
+  }
+
+  .bam-content {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    font-family: 'Segoe UI', Helvetica, sans-serif !important;
+  }
+
+  .bam-content p {
+    padding: 0 1em 1em;
+    margin: 0;
+  }
+
+  .bam-content small {
+    line-height: 1;
+    padding-top: 100px;
+  }
+
+  .bam-content .bg-gray-light {
+    background-color: hsl(225, 25%, 98%);
+  }
+
+  .bam-content .bg-gray {
+    background-color: hsl(225, 25%, 92%);
+  }
+
+  .bam-content .bam-wrapper {
+    border-radius: 25px;
+    border: 1px solid #eee;
+    max-width: 1200px;
+    margin: 0 auto 0.5em;
+    overflow: hidden;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .bam-content .bam-container {
+    padding: 2em;
+    width: 100%;
+  }
+
+  .bam-content .cols-60-40 {
+    display: grid;
+    grid-template-columns: 6fr minmax(350px, 4fr);
+    grid-template-areas: 'content photo';
+  }
+
+  .bam-content .cols-60-40 > p {
+    grid-area: content;
+  }
+
+  .bam-content .cols-60-40 > img {
+    grid-area: photo;
+    margin: 0 auto;
+    width: 90%;
+    height: auto;
+  }
+
+  @media (max-width: 800px) {
+    .bam-content .cols-60-40 {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'photo' 'content';
+    }
+  }
+
+  .bam-content .bam-heading img {
+    margin-bottom: 0.5em;
+    padding: 0;
+    box-shadow: 1px;
+    max-width: 100%;
+    border-radius: 25px;
+  }
+
+  .bam-content h1,
+  .bam-content h2,
+  .bam-content h3,
+  .bam-content h4,
+  .bam-content h5 {
+    color: var(--blue);
+    padding: 0.5em 0 1.3em;
+  }
+
+  .bam-content h1 {
+    text-align: center;
+  }
+
+  .bam-content .emphasis {
+    color: var(--blue);
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .bam-content .bam-container > *:last-child {
+    margin-bottom: 0em;
+  }
+div.bam-content
+  header.bam-heading
+    img(
+      src="https://bluesangelmusic.s3.us-east-2.amazonaws.com/wp-content/uploads/2021/06/30142022/hero.jpg"
+      alt="Blues Angel Music"
+    )
+  div.bam-wrapper
+    section.bam-container.bg-gray-light
+      h1 #{Title}
+      case Condition
+        when 'used'
+          p.emphasis
+            | Tested and 100% functional! We ask that you observe its pictures closely and invite you to contact us with
+            | any additional questions you may have.
+        when 'as-is'
+          p.emphasis
+            | Product could not be tested and is being sold as-is and cannot be returned. We ask that you observe its
+            | pictures closely and invite you to contact us with any additional questions you may have.
+      p #{Description}
+    section.bam-container.bg-gray
+      h2 Specs & Features
+      ul
+        each val in Specs
+          li= val
+  div.bam-wrapper
+    section.bam-container.bg-gray
+      h2 Fast & Quality Shipping!
+      ul
+        li
+          | All orders are shipped within 1 business day in the continental U.S. of received payment. (Expedited and HI
+          | and AK shipping available for additional cost)
+        li All items are shipped insured
+        li 
+          | We ship most of our items in custom-made/double-walled boxes, as many original manufacturer's shipping
+          | boxes are not strong enough to withstand multiple shipments, and have already been used at least once to
+          | ship to us. Your item may not come in the original manufacturer's box. We do our very best to ensure that
+          | your instrument arrives safely and securely. See our feedback for positive comments on how well we ship!
+        li
+          | Large Packaged Items such as Guitars, Basses, Amps, Drums, and Keyboards being shipped to Post Office Boxes
+          | will incur additional charges.
+        li Orders over $50.00 require a signature*
+      small
+        | *If you do not wish to have a signature for your item you must submit to us that you do not wish to have a
+        | signature on your item. You assume any and all responsibility in the event your purchased item is lost during
+        | shipment or stolen from your home.
+  div.bam-wrapper
+    section.bam-container.bg-gray
+      h2 About Us
+      div.cols-60-40
+        p
+          | Blues Angel Music (BAM) was founded in August of 1997. From a one-man, 1,000 square foot beginning into a
+          | 15,000 square foot, full-line music store, complete with a fully-staffed school of music, Blues Angel Music
+          | provides an impressive selection of new, used, and vintage gear for the beginner and the professional
+          | musician alike. In addition to our selection of new, used, and vintage gear, and Blues Angel Music’s School
+          | of Music. We have been named a NAMM (National Association of Music Merchants) Top 100 Dealer 11 years
+          | running and we’ve also been voted Best of the Bay. These awards are due to our friendly staff of experts
+          | who are eager to provide information and advice relating to any of the instruments and accessories we
+          | offer. It is the goal at Blues Angel Music to be the “go-to” spot for aspiring musicians as well as gigging
+          | professionals.
+        img(
+          src='https://bluesangelmusic.s3.us-east-2.amazonaws.com/wp-content/uploads/2021/06/30142019/storefront.jpg'
+          alt="Blues Angel Music's brick-and-mortar store is located in Pensacola, FL."
+        )

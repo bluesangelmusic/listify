@@ -1,77 +1,33 @@
 [
   {
     "label": "Title",
-    "type": "text",
-    "placeholder": "Sample title"
+    "type": "text"
   },
   {
-    "label": "Amount",
-    "type": "number"
+    "label": "Condition",
+    "type": "radio",
+    "options": [
+      {
+        "label": "New",
+        "value": "new"
+      },
+      {
+        "label": "Used",
+        "value": "used"
+      },
+      {
+        "label": "As-is",
+        "value": "as-is"
+      }
+    ]
   },
   {
     "label": "Description",
-    "type": "textarea",
-    "default": "Put your description here..."
-  },
-  {
-    "label": "Category",
-    "type": "select",
-    "default": "foo",
-    "options": [
-      {
-        "value": "fizz",
-        "label": "Fizz"
-      },
-      {
-        "value": "buzz",
-        "label": "Buzz"
-      },
-      {
-        "value": "foo",
-        "label": "Foo"
-      },
-      {
-        "value": "bar",
-        "label": "Bar"
-      }
-    ]
-  },
-  {
-    "label": "Number",
-    "type": "radio",
-    "default": "2",
-    "options": [
-      {
-        "value": "1"
-      },
-      {
-        "value": "2"
-      },
-      {
-        "value": "3"
-      }
-    ]
-  },
-  {
-    "label": "Letter",
-    "type": "check",
-    "options": [
-      {
-        "value": "A",
-        "checked": true
-      },
-      {
-        "value": "B"
-      },
-      {
-        "value": "C",
-        "checked": true
-      }
-    ]
+    "type": "textarea"
   },
   {
     "label": "Specs",
     "type": "text-array",
-    "defaults": ["Value one", "Value two", "Value three"]
+    "defaults": ["", "", "", "", ""]
   }
 ]
