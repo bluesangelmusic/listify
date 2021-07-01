@@ -1,15 +1,16 @@
 import React, { useEffect, useContext, useMemo } from 'react'
 import { TextArrayInputConfig } from '../../types'
-import { v4 as uuid } from 'uuid'
 import { FormContext } from '../form'
 import Row from '../row'
 import UtilButton from '../util-button'
+
+let id = 0
 
 export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
   const { state, setProp } = useContext(FormContext)
   const values = useMemo(() => {
     return (props.defaults || []).reduce((acc, value) => {
-      acc[uuid()] = value
+      acc[id++] = value
 
       return acc
     }, {} as { [key: string]: any })
@@ -55,7 +56,7 @@ export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
           onClick={() => {
             setProp(props.label, {
               ...state?.[props.label],
-              [uuid()]: '',
+              [id++]: '',
             })
           }}
         >
