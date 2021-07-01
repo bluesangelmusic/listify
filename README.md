@@ -9,7 +9,7 @@ Configuration is managed through two files, both located in the `src/static` dir
 
 ### `template.pug`
 
-This template is used to generate the final HTML output. The documentation for pug can be found at (https://pugjs.org).
+This template is used to generate the final HTML output. The documentation for pug can be found at https://pugjs.org.
 The variable names inserted into the template come from the `label` property inside `form.json`, which is outlined
 below.
 
@@ -17,13 +17,13 @@ below.
 
 This configuration file sets up the form fields used in the editor. There are seven input types defined:
 
-- (Text Input)[#text-input]
-- (Number Input)[#number-input]
-- (Select Box)[#select-box]
-- (Checkbox)[#checkbox]
-- (Radio Buttons)[#radio-buttons]
-- (Text Area)[#text-area]
-- (Text Array)[#text-array]
+- [Text Input](#text-input)
+- [Number Input](#number-input)
+- [Select Box](#select-box)
+- [Checkbox](#checkbox)
+- [Radio Buttons](#radio-buttons)
+- [Text Area](#text-area)
+- [Text Array](#text-array)
 
 #### Text Input
 
