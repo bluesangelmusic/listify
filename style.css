@@ -18,3 +18,13 @@ button {
 button[disabled] {
   cursor: not-allowed;
 }
+
+input:not([type='radio']):not([type='checkbox']),
+textarea {
+  padding: 0.3em 0.5em;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #cacacc;
+  width: 100%;
+  max-width: 100%;
+}
