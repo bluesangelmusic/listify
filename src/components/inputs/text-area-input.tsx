@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { TextAreaInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const TextAreaInput: React.FC<TextAreaInputConfig> = props => {
+export const TextAreaInput = (props: TextAreaInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const defaultValue = useMemo(() => {
     return props.default

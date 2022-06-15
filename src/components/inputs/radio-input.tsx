@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { RadioInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const RadioInput: React.FC<RadioInputConfig> = props => {
+export const RadioInput = (props: RadioInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const defaultValue = useMemo(() => {
     return props.default

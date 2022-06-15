@@ -1,12 +1,22 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
-import DefaultButton from './button'
+import { Button as DefaultButton } from './button'
 
-const CodeModal: React.FC<PropsWithChildren<any>> = props => {
+export type CodeModalProps = PropsWithChildren<{
+  dismiss: () => void
+}>
+
+/**
+ * A modal popup for displaying the generated HTML. Includes a preview link for
+ * viewing the rendered output on CodePen.
+ *
+ * @param {CodeModalProps} props
+ */
+export const CodeModal = ({ dismiss, children }: CodeModalProps) => {
   return (
-    <Wrapper onClick={props.dismiss}>
+    <Wrapper onClick={dismiss}>
       <Dialog onClick={e => e.stopPropagation()}>
-        <CodeBlock>{props.children}</CodeBlock>
+        <CodeBlock>{children}</CodeBlock>
         <form
           action="https://codepen.io/pen/define"
           method="POST"
@@ -17,7 +27,7 @@ const CodeModal: React.FC<PropsWithChildren<any>> = props => {
             name="data"
             value={JSON.stringify({
               title: 'Listify Preview',
-              html: props.children,
+              html: children,
             })}
           />
 
@@ -60,5 +70,3 @@ const CodeBlock = styled.code`
 const Button = styled(DefaultButton)`
   margin: 1rem auto;
 `
-
-export default CodeModal

@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { SelectInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const SelectInput: React.FC<SelectInputConfig> = props => {
+export const SelectInput = (props: SelectInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const defaultValue = useMemo(() => {
     return props.default

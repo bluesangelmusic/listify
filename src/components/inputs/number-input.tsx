@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { NumberInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const NumberInput: React.FC<NumberInputConfig> = props => {
+export const NumberInput = (props: NumberInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const defaultValue = useMemo(() => {
     return props.default || '1'

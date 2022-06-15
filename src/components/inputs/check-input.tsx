@@ -1,8 +1,8 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { CheckInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const CheckInput: React.FC<CheckInputConfig> = props => {
+export const CheckInput = (props: CheckInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const values = useMemo(() => {
     return props.options.reduce((acc, option) => {

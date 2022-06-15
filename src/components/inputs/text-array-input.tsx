@@ -1,12 +1,12 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { TextArrayInputConfig } from '../../types'
 import { FormContext } from '../form'
-import Row from '../row'
-import UtilButton from '../util-button'
+import { Row } from '../row'
+import { UtilButton } from '../util-button'
 
 let id = 0
 
-export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
+export const TextArrayInput = (props: TextArrayInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const values = useMemo(() => {
     return (props.defaults || []).reduce((acc, value) => {
