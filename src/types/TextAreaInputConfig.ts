@@ -1,6 +1,6 @@
 export interface TextAreaInputConfig {
   type: 'textarea'
   label: string
-  default?: string
+  defaultValue?: string
   placeholder?: string
 }

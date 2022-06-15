@@ -1,25 +1,31 @@
-import { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext } from 'react'
 import { TextInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const TextInput = (props: TextInputConfig) => {
+/**
+ * A custom text input.
+ *
+ * @param props
+ */
+export const TextInput = ({
+  label,
+  defaultValue,
+  placeholder,
+}: TextInputConfig) => {
   const { state, setProp } = useContext(FormContext)
-  const defaultValue = useMemo(() => {
-    return props.default
-  }, [props.default])
 
   useEffect(() => {
-    setProp(props.label, defaultValue)
-  }, [setProp, props.label, defaultValue])
+    setProp(label, defaultValue)
+  }, [setProp, label, defaultValue])
 
   return (
     <input
-      id={props.label}
+      id={label}
       type="text"
-      name={props.label}
-      value={state[props.label] || ''}
-      onChange={e => setProp(props.label, e.target.value)}
-      placeholder={props.placeholder}
+      name={label}
+      value={state[label] || ''}
+      onChange={e => setProp(label, e.target.value)}
+      placeholder={placeholder}
     />
   )
 }

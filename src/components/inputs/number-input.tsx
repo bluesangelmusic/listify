@@ -1,33 +1,39 @@
-import { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext } from 'react'
 import { NumberInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const NumberInput = (props: NumberInputConfig) => {
+/**
+ * A custom number input.
+ *
+ * @param {NumberInputConfig} props
+ */
+export const NumberInput = ({
+  label,
+  defaultValue,
+  placeholder,
+}: NumberInputConfig) => {
   const { state, setProp } = useContext(FormContext)
-  const defaultValue = useMemo(() => {
-    return props.default || '1'
-  }, [props.default])
 
   useEffect(() => {
-    setProp(props.label, defaultValue)
-  }, [setProp, props.label, defaultValue])
+    setProp(label, defaultValue)
+  }, [setProp, label, defaultValue])
 
   return (
     <input
-      id={props.label}
+      id={label}
       type="number"
-      name={props.label}
-      value={props.label in state ? state[props.label] : defaultValue}
+      name={label}
+      value={label in state ? state[label] : defaultValue}
       onChange={e => {
         if (!e.target.validity.badInput) {
           if (e.target.value.length) {
-            setProp(props.label, e.target.value)
+            setProp(label, e.target.value)
           } else {
-            setProp(props.label, defaultValue)
+            setProp(label, defaultValue)
           }
         }
       }}
-      placeholder={props.placeholder}
+      placeholder={placeholder}
     />
   )
 }

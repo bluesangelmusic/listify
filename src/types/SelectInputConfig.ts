@@ -2,7 +2,7 @@ export interface SelectInputConfig {
   type: 'select'
   label: string
   options: SelectInputOption[]
-  default?: string
+  defaultValue?: string
 }
 
 export interface SelectInputOption {

@@ -28,6 +28,6 @@
   {
     "label": "Specs",
     "type": "text-array",
-    "defaults": ["", "", "", "", ""]
+    "defaultValues": ["", "", "", "", ""]
   }
 ]

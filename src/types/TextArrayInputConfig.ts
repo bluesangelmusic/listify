@@ -1,6 +1,6 @@
 export interface TextArrayInputConfig {
   type: 'text-array'
   label: string
-  defaults?: string[]
+  defaultValues?: string[]
   placeholder?: string
 }

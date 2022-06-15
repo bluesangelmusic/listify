@@ -1,31 +1,37 @@
-import { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext } from 'react'
 import { RadioInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const RadioInput = (props: RadioInputConfig) => {
+/**
+ * A custom radio set.
+ *
+ * @param {RadioInputConfig} props
+ */
+export const RadioInput = ({
+  label,
+  options,
+  defaultValue,
+}: RadioInputConfig) => {
   const { state, setProp } = useContext(FormContext)
-  const defaultValue = useMemo(() => {
-    return props.default
-  }, [props.default])
 
   useEffect(() => {
-    setProp(props.label, defaultValue)
-  }, [setProp, props.label, defaultValue])
+    setProp(label, defaultValue)
+  }, [setProp, label, defaultValue])
 
   return (
     <>
-      {props.options.map(option => (
+      {options.map(option => (
         <label
-          key={`${props.label}-${option.value}`}
-          htmlFor={`${props.label}-${option.value}`}
+          key={`${label}-${option.value}`}
+          htmlFor={`${label}-${option.value}`}
         >
           <input
-            id={`${props.label}-${option.value}`}
+            id={`${label}-${option.value}`}
             type="radio"
-            name={props.label}
+            name={label}
             value={option.value}
-            onChange={e => setProp(props.label, e.target.value)}
-            checked={state?.[props.label] === option.value}
+            onChange={e => setProp(label, e.target.value)}
+            checked={state?.[label] === option.value}
           />
           {` ${option.label || option.value}`}
         </label>

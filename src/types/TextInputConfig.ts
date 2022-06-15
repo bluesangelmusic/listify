@@ -1,6 +1,6 @@
 export interface TextInputConfig {
   type: 'text'
   label: string
-  default?: string
+  defaultValue?: string
   placeholder?: string
 }

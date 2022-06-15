@@ -1,25 +1,31 @@
-import { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext } from 'react'
 import { SelectInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const SelectInput = (props: SelectInputConfig) => {
+/**
+ * A custom select element.
+ *
+ * @param {SelectInputConfig} props
+ */
+export const SelectInput = ({
+  label,
+  options,
+  defaultValue,
+}: SelectInputConfig) => {
   const { state, setProp } = useContext(FormContext)
-  const defaultValue = useMemo(() => {
-    return props.default
-  }, [props.default])
 
   useEffect(() => {
-    setProp(props.label, defaultValue)
-  }, [setProp, props.label, defaultValue])
+    setProp(label, defaultValue)
+  }, [setProp, label, defaultValue])
 
   return (
     <select
-      id={props.label}
-      name={props.label}
-      value={state[props.label] || ''}
-      onChange={e => setProp(props.label, e.target.value)}
+      id={label}
+      name={label}
+      value={state[label] || ''}
+      onChange={e => setProp(label, e.target.value)}
     >
-      {props.options.map(option => (
+      {options.map(option => (
         <option key={option.value} value={option.value}>
           {option.label || option.value}
         </option>
