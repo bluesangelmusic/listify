@@ -1,6 +1,6 @@
 export interface NumberInputConfig {
   type: 'number'
   label: string
-  default?: number
+  defaultValue?: number
   placeholder?: string
 }

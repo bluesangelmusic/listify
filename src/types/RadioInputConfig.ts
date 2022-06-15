@@ -2,7 +2,7 @@ export interface RadioInputConfig {
   type: 'radio'
   label: string
   options: RadioInputOption[]
-  default?: string
+  defaultValue?: string
 }
 
 export interface RadioInputOption {

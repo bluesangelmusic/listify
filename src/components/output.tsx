@@ -1,12 +1,20 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
-const Output: React.FC<PropsWithChildren<any>> = props => {
-  if (!props.children) return null
+export type OutputProps = PropsWithChildren<{}>
+
+/**
+ * Wrapper element for the generated HTML, which should be passed in as
+ * `children`.
+ *
+ * @param {OutputProps} props
+ */
+export const Output = ({ children }: OutputProps) => {
+  if (!children) return null
 
   return (
     <Wrapper>
-      <Container>{props.children}</Container>
+      <Container>{children}</Container>
     </Wrapper>
   )
 }
@@ -21,5 +29,3 @@ const Container = styled.code`
   max-height: 10em;
   overflow: auto;
 `
-
-export default Output

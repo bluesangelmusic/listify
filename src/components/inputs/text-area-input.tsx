@@ -1,24 +1,30 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext } from 'react'
 import { TextAreaInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const TextAreaInput: React.FC<TextAreaInputConfig> = props => {
+/**
+ * A custom textarea.
+ *
+ * @param {TextAreaInputConfig} props
+ */
+export const TextAreaInput = ({
+  label,
+  defaultValue,
+  placeholder,
+}: TextAreaInputConfig) => {
   const { state, setProp } = useContext(FormContext)
-  const defaultValue = useMemo(() => {
-    return props.default
-  }, [props.default])
 
   useEffect(() => {
-    setProp(props.label, defaultValue)
-  }, [setProp, props.label, defaultValue])
+    setProp(label, defaultValue)
+  }, [setProp, label, defaultValue])
 
   return (
     <textarea
-      id={props.label}
-      name={props.label}
-      value={state[props.label] || ''}
-      onChange={e => setProp(props.label, e.target.value)}
-      placeholder={props.placeholder}
+      id={label}
+      name={label}
+      value={state[label] || ''}
+      onChange={e => setProp(label, e.target.value)}
+      placeholder={placeholder}
     />
   )
 }

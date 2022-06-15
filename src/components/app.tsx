@@ -1,24 +1,37 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import styled from 'styled-components'
-import DefaultButton from './button'
-import CodeModal from './code-modal'
+import { Button as DefaultButton } from './button'
+import { CodeModal } from './code-modal'
 import { InputConfig } from '../types'
-import Form from './form'
-import FormField from './form-field'
+import { Form } from './form'
+import { FormField } from './form-field'
 import fields from '../static/form.json'
 import template from '../static/template.pug'
 import pug from 'pug'
 
-const App = () => {
+/**
+ * The root element for the app.
+ */
+export const App = () => {
   const [html, setHtml] = useState<string>('')
   const [modalShown, setModalShown] = useState<boolean>(false)
 
+  /**
+   * Show the HTML modal.
+   */
   const showModal = useCallback(() => setModalShown(true), [])
 
+  /**
+   * Hide the HTML modal.
+   */
   const dismissModal = useCallback(() => setModalShown(false), [])
 
+  /**
+   * Insert the form values into the Pug template and store the generated HTML,
+   * then show the code modal.
+   */
   const generateHtml = useCallback(
-    state => {
+    (state: Record<string, any>) => {
       setHtml(pug.render(template.toString(), state))
       showModal()
     },
@@ -54,5 +67,3 @@ const Button = styled(DefaultButton)`
   background: #001659;
   margin-top: 3rem;
 `
-
-export default App

@@ -1,36 +1,45 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { TextArrayInputConfig } from '../../types'
 import { FormContext } from '../form'
-import Row from '../row'
-import UtilButton from '../util-button'
+import { Row } from '../row'
+import { UtilButton } from '../util-button'
 
 let id = 0
 
-export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
+/**
+ * An expandable array of custom text inputs.
+ *
+ * @param {TextArrayInputConfig} props
+ */
+export const TextArrayInput = ({
+  label,
+  defaultValues,
+  placeholder,
+}: TextArrayInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const values = useMemo(() => {
-    return (props.defaults || []).reduce((acc, value) => {
+    return (defaultValues || []).reduce((acc, value) => {
       acc[id++] = value
 
       return acc
     }, {} as { [key: string]: any })
-  }, [props.defaults])
+  }, [defaultValues])
 
   useEffect(() => {
-    setProp(props.label, values)
-  }, [setProp, props.label, values])
+    setProp(label, values)
+  }, [setProp, label, values])
 
   return (
     <>
-      {Object.keys(state?.[props.label] || {}).map(key => (
+      {Object.keys(state?.[label] || {}).map(key => (
         <Row key={key}>
           <UtilButton
             type="button"
             onClick={() => {
-              const __fields = { ...state[props.label] }
+              const __fields = { ...state[label] }
               delete __fields[key]
 
-              setProp(props.label, __fields)
+              setProp(label, __fields)
             }}
           >
             &times;
@@ -38,15 +47,15 @@ export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
           <input
             id={key}
             type="text"
-            name={`${props.label}-${key}`}
-            value={state[props.label][key]}
+            name={`${label}-${key}`}
+            value={state[label][key]}
             onChange={e => {
-              const __fields = { ...state[props.label] }
+              const __fields = { ...state[label] }
               __fields[key] = e.target.value
 
-              setProp(props.label, __fields)
+              setProp(label, __fields)
             }}
-            placeholder={props.placeholder}
+            placeholder={placeholder}
           />
         </Row>
       ))}
@@ -54,8 +63,8 @@ export const TextArrayInput: React.FC<TextArrayInputConfig> = props => {
         <UtilButton
           type="button"
           onClick={() => {
-            setProp(props.label, {
-              ...state?.[props.label],
+            setProp(label, {
+              ...state?.[label],
               [id++]: '',
             })
           }}

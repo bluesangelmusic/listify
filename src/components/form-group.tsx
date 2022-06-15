@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
-const FormGroup = styled.div`
+/**
+ * A custom wrapper `<div>` for form inputs and their labels.
+ */
+export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
 `
-
-export default FormGroup

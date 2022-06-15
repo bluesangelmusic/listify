@@ -1,46 +1,49 @@
-import React, { useEffect, useContext, useMemo } from 'react'
+import { useEffect, useContext, useMemo } from 'react'
 import { CheckInputConfig } from '../../types'
 import { FormContext } from '../form'
 
-export const CheckInput: React.FC<CheckInputConfig> = props => {
+/**
+ * A custom checkbox input.
+ *
+ * @param {CheckInputConfig} props
+ */
+export const CheckInput = ({ label, options }: CheckInputConfig) => {
   const { state, setProp } = useContext(FormContext)
   const values = useMemo(() => {
-    return props.options.reduce((acc, option) => {
+    return options.reduce((acc, option) => {
       if (option.checked) acc.push(option.value)
 
       return acc
     }, [] as string[])
-  }, [props.options])
+  }, [options])
 
   useEffect(() => {
-    setProp(props.label, values)
-  }, [setProp, props.label, values])
+    setProp(label, values)
+  }, [setProp, label, values])
 
   return (
     <>
-      {props.options.map(option => (
+      {options.map(option => (
         <label
-          key={`${props.label}-${option.value}`}
-          htmlFor={`${props.label}-${option.value}`}
+          key={`${label}-${option.value}`}
+          htmlFor={`${label}-${option.value}`}
         >
           <input
-            id={`${props.label}-${option.value}`}
+            id={`${label}-${option.value}`}
             type="checkbox"
-            name={props.label}
+            name={label}
             value={option.value}
             onChange={e => {
               if (e.target.checked) {
-                setProp(props.label, [...state[props.label], option.value])
+                setProp(label, [...state[label], option.value])
               } else {
                 setProp(
-                  props.label,
-                  state[props.label].filter(
-                    (value: string) => value !== option.value
-                  )
+                  label,
+                  state[label].filter((value: string) => value !== option.value)
                 )
               }
             }}
-            checked={(state?.[props.label] || []).includes(option.value)}
+            checked={(state?.[label] || []).includes(option.value)}
           />
           {` ${option.label || option.value}`}
         </label>
