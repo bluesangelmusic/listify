@@ -31,7 +31,7 @@ This configuration file sets up the form fields used in the editor. There are se
 {
   "type": "text",
   "label": string,
-  "default": string | undefined,
+  "defaultValue": string | undefined,
   "placeholder": string | undefined
 }
 ```
@@ -42,7 +42,7 @@ This configuration file sets up the form fields used in the editor. There are se
 {
   "type": "number",
   "label": string,
-  "default": number | undefined,
+  "defaultValue": number | undefined,
   "placeholder": number | undefined
 }
 ```
@@ -59,7 +59,7 @@ This configuration file sets up the form fields used in the editor. There are se
       "label": string | undefined
     }
   ],
-  "default": string | undefined
+  "defaultValue": string | undefined
 }
 ```
 
@@ -91,7 +91,7 @@ This configuration file sets up the form fields used in the editor. There are se
       "label": string | undefined
     }
   ],
-  "default": string | undefined
+  "defaultValue": string | undefined
 }
 ```
 
@@ -101,7 +101,7 @@ This configuration file sets up the form fields used in the editor. There are se
 {
   "type": "textarea",
   "label": string,
-  "default": string | undefined,
+  "defaultValue": string | undefined,
   "placeholder": string | undefined
 }
 ```
@@ -112,7 +112,7 @@ This configuration file sets up the form fields used in the editor. There are se
 {
   "type": "text-array",
   "label": string,
-  "defaults": string[] | undefined,
+  "defaultValues": string[] | undefined,
   "placeholder": string | undefined
 }
 ```
