@@ -1,0 +1,48 @@
+case Condition
+  when 'new'
+    p.emphasis
+      | BRAND NEW!!! We ask you to look at our pictures and invite you to contact us with any additional questions.
+  when 'used'
+    p.emphasis
+      | Tested and 100% functional! We ask that you observe its pictures closely and invite you to contact us with
+      | any additional questions you may have.
+  when 'as-is'
+    p.emphasis
+      | Product could not be tested and is being sold as-is and cannot be returned. We ask that you observe its
+      | pictures closely and invite you to contact us with any additional questions you may have.
+each paragraph in Description
+  p= paragraph
+h2 Specs & Features
+ul
+  each val in Specs
+    li= val
+h2 Fast & Quality Shipping!
+ul
+  li
+    | All orders are shipped within 1 business day in the continental U.S. of received payment. (Expedited and HI
+    | and AK shipping available for additional cost)
+  li All items are shipped insured
+  li 
+    | We ship most of our items in custom-made/double-walled boxes, as many original manufacturer's shipping
+    | boxes are not strong enough to withstand multiple shipments, and have already been used at least once to
+    | ship to us. Your item may not come in the original manufacturer's box. We do our very best to ensure that
+    | your instrument arrives safely and securely. See our feedback for positive comments on how well we ship!
+  li
+    | Large Packaged Items such as Guitars, Basses, Amps, Drums, and Keyboards being shipped to Post Office Boxes
+    | will incur additional charges.
+  li Orders over $50.00 require a signature*
+small
+  | *If you do not wish to have a signature for your item you must submit to us that you do not wish to have a
+  | signature on your item. You assume any and all responsibility in the event your purchased item is lost during
+  | shipment or stolen from your home.
+h2 About Us
+p
+  | Blues Angel Music (BAM) was founded in August of 1997. From a one-man, 1,000 square foot beginning into a
+  | 15,000 square foot, full-line music store, complete with a fully-staffed school of music, Blues Angel Music
+  | provides an impressive selection of new, used, and vintage gear for the beginner and the professional
+  | musician alike. In addition to our selection of new, used, and vintage gear, and Blues Angel Music’s School
+  | of Music. We have been named a NAMM (National Association of Music Merchants) Top 100 Dealer 11 years
+  | running and we’ve also been voted Best of the Bay. These awards are due to our friendly staff of experts
+  | who are eager to provide information and advice relating to any of the instruments and accessories we
+  | offer. It is the goal at Blues Angel Music to be the “go-to” spot for aspiring musicians as well as gigging
+  | professionals.

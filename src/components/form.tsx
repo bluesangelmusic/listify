@@ -1,10 +1,4 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useState,
-  useCallback,
-  FormEvent,
-} from 'react'
+import { createContext, FormEvent, PropsWithChildren, useCallback, useState } from 'react'
 
 export interface FormContextValue {
   state: Record<string, any>
@@ -12,7 +6,7 @@ export interface FormContextValue {
 }
 
 export interface FormProps extends PropsWithChildren<any> {
-  onSubmit: (state: Record<string, any>) => void
+  onSubmit?: (state: Record<string, any>) => void
 }
 
 /**
@@ -57,7 +51,29 @@ export const Form = ({ onSubmit, children }: FormProps) => {
   const handleSubmit = useCallback(
     (e: FormEvent, state: Record<string, any>) => {
       e.preventDefault()
-      onSubmit(state)
+
+      const locals = { ...state }
+      for (const key in locals) {
+        if (locals[key] instanceof Array) {
+          locals[key] = locals[key].filter(
+            (item: any) => typeof item !== 'undefined' && item !== ''
+          )
+        }
+
+        if (locals[key] instanceof Object) {
+          const filtered: Record<any, any> = {}
+          for (const entry in locals[key]) {
+            if (locals[key][entry] !== undefined && locals[key][entry] !== '') {
+              filtered[entry] = locals[key][entry]
+            }
+          }
+          locals[key] = filtered
+        }
+      }
+
+      if (onSubmit) {
+        onSubmit(locals)
+      }
     },
     [onSubmit]
   )

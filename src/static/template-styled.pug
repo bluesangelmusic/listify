@@ -127,7 +127,6 @@ div.bam-content
     )
   div.bam-wrapper
     section.bam-container.bg-gray-light
-      h1 #{Title}
       case Condition
         when 'new'
           p.emphasis
@@ -140,7 +139,9 @@ div.bam-content
           p.emphasis
             | Product could not be tested and is being sold as-is and cannot be returned. We ask that you observe its
             | pictures closely and invite you to contact us with any additional questions you may have.
-      p #{Description}
+      each paragraph in Description
+        p= paragraph
+      
     section.bam-container.bg-gray
       h2 Specs & Features
       ul

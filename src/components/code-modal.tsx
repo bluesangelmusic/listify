@@ -1,10 +1,13 @@
-import { PropsWithChildren } from 'react'
+import { DetailedHTMLProps, HTMLAttributes, PropsWithChildren, useCallback, useRef } from 'react'
 import styled from 'styled-components'
+
 import { Button as DefaultButton } from './button'
 
-export type CodeModalProps = PropsWithChildren<{
-  dismiss: () => void
-}>
+export type CodeModalProps = PropsWithChildren<
+  {
+    dismiss: () => void
+  } & Omit<DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>, 'ref'>
+>
 
 /**
  * A modal popup for displaying the generated HTML. Includes a preview link for
@@ -12,11 +15,48 @@ export type CodeModalProps = PropsWithChildren<{
  *
  * @param {CodeModalProps} props
  */
-export const CodeModal = ({ dismiss, children }: CodeModalProps) => {
+export const CodeModal = ({ dismiss, ...props }: CodeModalProps) => {
+  const ref = useRef<HTMLElement | null>(null)
+
+  const copyContent = useCallback(async () => {
+    if (!ref.current) {
+      return
+    }
+
+    try {
+      const html = ref.current.innerHTML
+      const blob = new Blob([html], { type: 'text/html' })
+
+      if (typeof ClipboardItem === 'undefined') {
+        const text = await blob.text()
+        ref.current.addEventListener('copy', e => {
+          e.preventDefault()
+          if (!e.clipboardData) {
+            return
+          }
+
+          e.clipboardData.setData('text/html', text)
+          window.alert('Copied to clipboard!')
+        })
+        document.execCommand('copy')
+
+        return
+      }
+
+      const clipboardItem = new ClipboardItem({
+        'text/html': blob,
+      })
+      await navigator.clipboard.write([clipboardItem])
+      window.alert('Copied to clipboard!')
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
+
   return (
     <Wrapper onClick={dismiss}>
       <Dialog onClick={e => e.stopPropagation()}>
-        <CodeBlock>{children}</CodeBlock>
+        <CodeBlock ref={ref} onClick={copyContent} {...props} />
         <form
           action="https://codepen.io/pen/define"
           method="POST"
@@ -27,11 +67,11 @@ export const CodeModal = ({ dismiss, children }: CodeModalProps) => {
             name="data"
             value={JSON.stringify({
               title: 'Listify Preview',
-              html: children,
+              html: props.children,
             })}
           />
 
-          <Button>Preview on CodePen</Button>
+          {!!props.children && <Button>Preview on CodePen</Button>}
         </form>
       </Dialog>
     </Wrapper>

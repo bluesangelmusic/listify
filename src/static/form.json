@@ -1,9 +1,5 @@
 [
   {
-    "label": "Title",
-    "type": "text"
-  },
-  {
     "label": "Condition",
     "type": "radio",
     "options": [

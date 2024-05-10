@@ -1,4 +1,5 @@
-import { useEffect, useContext } from 'react'
+import { useContext, useEffect } from 'react'
+
 import { TextAreaInputConfig } from '../../types'
 import { FormContext } from '../form'
 
@@ -15,15 +16,15 @@ export const TextAreaInput = ({
   const { state, setProp } = useContext(FormContext)
 
   useEffect(() => {
-    setProp(label, defaultValue)
+    setProp(label, [defaultValue])
   }, [setProp, label, defaultValue])
 
   return (
     <textarea
       id={label}
       name={label}
-      value={state[label] || ''}
-      onChange={e => setProp(label, e.target.value)}
+      value={(state[label]?.length ? state[label] : []).join('\n')}
+      onChange={e => setProp(label, e.target.value.split('\n'))}
       placeholder={placeholder}
     />
   )
